@@ -3,7 +3,7 @@
 import torch
 import torch.nn as nn
 
-class ScalerLSTM(nn.Module):
+class ScalarLSTM(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
         super().__init__()
         self.hidden_size = hidden_size
@@ -44,7 +44,7 @@ class ScalerLSTM(nn.Module):
             i_t = torch.exp(i_log - m)
             f_t = torch.exp(f_log + m_prev - m)
             c_hat_t = torch.tanh(self.W_c(combined)) 
-            o_t = torch. sigmoid(self.W_o(combined)) 
+            o_t = torch.sigmoid(self.W_o(combined)) 
 
 
             c = f_t * c + i_t * c_hat_t
@@ -61,7 +61,7 @@ class ScalerLSTM(nn.Module):
 
 
 if __name__ == "__main__": 
-    lstm = ScalerLSTM(input_size=10, hidden_size=128, output_size=10)
+    lstm = ScalarLSTM(input_size=10, hidden_size=128, output_size=10)
     x_long = torch.randn(1, 100, 10)
     outputs, (h, c, n, m) = lstm(x_long)
     
