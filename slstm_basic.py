@@ -8,11 +8,10 @@ class SimpleLSTM(nn.Module):
         super().__init__()
         self.hidden_size = hidden_size
         #input_size=10, hidden_size=128, output_size=10
-        # All 4 gates (forget, input, cell, output)
-        self.W_f = nn.Linear(input_size + hidden_size, hidden_size)  # Forget
-        self.W_i = nn.Linear(input_size + hidden_size, hidden_size)  # Input
-        self.W_c = nn.Linear(input_size + hidden_size, hidden_size)  # Cell
-        self.W_o = nn.Linear(input_size + hidden_size, hidden_size)  # Output
+        self.W_f = nn.Linear(input_size + hidden_size, hidden_size) 
+        self.W_i = nn.Linear(input_size + hidden_size, hidden_size) 
+        self.W_c = nn.Linear(input_size + hidden_size, hidden_size) 
+        self.W_o = nn.Linear(input_size + hidden_size, hidden_size) 
       
         
         self.W_out = nn.Linear(hidden_size, output_size)
@@ -36,17 +35,14 @@ class SimpleLSTM(nn.Module):
             # Concatenate input and hidden
             combined = torch.cat([x_t, h], dim=1)
             
-            # Gate activations
-            f_t = torch.exp(self.W_f(combined))  # Forget gate
-            i_t = torch.exp(self.W_i(combined))  # Input gate
-            c_hat_t = torch.tanh(self.W_c(combined))  # Candidate cell
-            o_t = torch. sigmoid(self.W_o(combined))  # Output gate
+            f_t = torch.exp(self.W_f(combined))  
+            i_t = torch.exp(self.W_i(combined)) 
+            c_hat_t = torch.tanh(self.W_c(combined)) 
+            o_t = torch. sigmoid(self.W_o(combined)) 
             
-            # Update cell state (LONG-TERM MEMORY)
             c = f_t * c + i_t * c_hat_t
             n = f_t * n + i_t 
             
-            # Update hidden state (SHORT-TERM MEMORY)
             h = o_t * (c/n)
             
             # Output
